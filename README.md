@@ -15,3 +15,7 @@ using (var lzmaStream = new LzmaStream(packedStream, CompressionMode.Decompress)
     lzmaStream.Read(unpackData, 0, unpackData.Length);
 }
 ```
+
+## Credits
+
+This library uses unmodified source code from https://www.7-zip.org/sdk.html ([here in the repository](https://github.com/picrap/LzmaStream/tree/master/lzma1900))
