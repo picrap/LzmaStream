@@ -46,5 +46,19 @@
             var unpacked = unpackReader.ReadToEnd();
             Assert.AreEqual(GetReference(), unpacked);
         }
+
+        [TestMethod]
+        public void SimpleReadWithSmallBuffer()
+        {
+            using var packStream = GetType().OpenSiblingResourceStream("r.lzma");
+            using var unpackTarget = new MemoryStream();
+            using (var lzmaStream = new LzmaStream(packStream, CompressionMode.Decompress, bufferSize: 10))
+                lzmaStream.CopyTo(unpackTarget);
+
+            unpackTarget.Seek(0, SeekOrigin.Begin);
+            using var unpackReader = new StreamReader(unpackTarget);
+            var unpacked = unpackReader.ReadToEnd();
+            Assert.AreEqual(GetReference(), unpacked);
+        }
     }
 }

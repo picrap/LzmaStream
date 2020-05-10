@@ -17,17 +17,18 @@
         private readonly Stream _pipeStream;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="LzmaStream" /> class.
+        /// Initializes a new instance of the <see cref="LzmaStream" /> class.
         /// </summary>
         /// <param name="stream">The stream.</param>
         /// <param name="compressionMode">The compression mode.</param>
         /// <param name="ownsStream">if set to <c>true</c> [owns stream].</param>
+        /// <param name="bufferSize">Size of the buffer.</param>
         /// <exception cref="System.ArgumentOutOfRangeException">compressionMode - null</exception>
-        public LzmaStream(Stream stream, CompressionMode compressionMode, bool ownsStream = true)
+        public LzmaStream(Stream stream, CompressionMode compressionMode, bool ownsStream = true, int bufferSize = 1 << 20)
         {
             _innerStream = stream;
             _ownsStream = ownsStream;
-            _pipeStream = new PipeStream();
+            _pipeStream = new PipeStream(bufferSize);
             switch (compressionMode)
             {
                 case CompressionMode.Compress:

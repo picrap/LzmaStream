@@ -12,9 +12,9 @@
 
         private bool _disposed;
 
-        public PipeStream()
+        public PipeStream(int bufferSize = 1 << 20)
         {
-            _buffer = new CircularBuffer();
+            _buffer = new CircularBuffer(bufferSize);
         }
 
         public override bool CanRead => true;
