@@ -1,55 +1,44 @@
 #region Arx One
+
 // Arx One
 // The ass kicking online backup
 // © Arx One 2009-2019
+
 #endregion
 
-using System;
-using System.Threading;
-
-namespace LzmaStream.Pipe
+namespace Lzma.Pipe
 {
+    using System;
+    using System.Threading;
+
     /// <summary>
-    /// Circular byte buffer, as fast as possible.
-    /// Not thread-safe.
+    ///     Circular byte buffer, as fast as possible.
+    ///     Not thread-safe.
     /// </summary>
     public class CircularBuffer : IDisposable
     {
-        /// <summary>
-        /// Index from where next data will be read
-        /// </summary>
-        private int _readIndex;
-
-        /// <summary>
-        /// Index to where next data will be written
-        /// </summary>
-        private int _writeIndex;
-
-        private readonly byte[] _buffer;
-
-        /// <summary>
-        /// Gets the capacity.
-        /// </summary>
-        /// <value>The capacity.</value>
-        public int Capacity => _buffer.Length - 1;
-
-        /// <summary>
-        /// Gets the current size.
-        /// </summary>
-        /// <value>The count.</value>
-        public int Size => (_writeIndex - _readIndex + _buffer.Length) % _buffer.Length;
-
-
         private readonly ManualResetEvent _availableData = new ManualResetEvent(false);
 
         private readonly ManualResetEvent _availableSpace = new ManualResetEvent(true);
 
-        private bool _ended;
+        private readonly byte[] _buffer;
 
         private readonly object _lock = new object();
 
+        private bool _ended;
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="CircularBuffer"/> class.
+        ///     Index from where next data will be read
+        /// </summary>
+        private int _readIndex;
+
+        /// <summary>
+        ///     Index to where next data will be written
+        /// </summary>
+        private int _writeIndex;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="CircularBuffer" /> class.
         /// </summary>
         /// <param name="size">The size.</param>
         public CircularBuffer(int size = 1 << 20)
@@ -58,6 +47,18 @@ namespace LzmaStream.Pipe
             _buffer = new byte[size + 1];
         }
 
+        /// <summary>
+        ///     Gets the capacity.
+        /// </summary>
+        /// <value>The capacity.</value>
+        public int Capacity => _buffer.Length - 1;
+
+        /// <summary>
+        ///     Gets the current size.
+        /// </summary>
+        /// <value>The count.</value>
+        public int Size => (_writeIndex - _readIndex + _buffer.Length) % _buffer.Length;
+
         public void Dispose()
         {
             _ended = true;
@@ -65,7 +66,7 @@ namespace LzmaStream.Pipe
         }
 
         /// <summary>
-        /// Writes the specified buffer.
+        ///     Writes the specified buffer.
         /// </summary>
         /// <param name="buffer">The buffer.</param>
         /// <param name="offset">The offset.</param>
@@ -116,7 +117,7 @@ namespace LzmaStream.Pipe
         }
 
         /// <summary>
-        /// Reads to specified buffer.
+        ///     Reads to specified buffer.
         /// </summary>
         /// <param name="buffer">The buffer.</param>
         /// <param name="offset">The offset.</param>

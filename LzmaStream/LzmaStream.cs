@@ -1,31 +1,29 @@
-﻿using System;
-using System.IO;
-using System.IO.Compression;
-using System.Threading;
-using LzmaStream.Pipe;
-using LzmaStream.Streams;
-using SevenZip.Compression.LZMA;
-
-namespace LzmaStream
+﻿namespace Lzma
 {
+    using System;
+    using System.IO;
+    using System.IO.Compression;
+    using System.Threading;
+    using Pipe;
+    using SevenZip;
+    using SevenZip.Compression.LZMA;
+    using Streams;
+
     public class LzmaStream : SimpleStream
     {
+        private readonly Thread _coderThread;
+        private readonly Stream _innerStream;
         private readonly bool _ownsStream;
         private readonly Stream _pipeStream;
-        private readonly Stream _innerStream;
-        private readonly Thread _coderThread;
-
-        public override bool CanRead { get; }
-        public override bool CanWrite { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LzmaStream" /> class.
+        ///     Initializes a new instance of the <see cref="LzmaStream" /> class.
         /// </summary>
         /// <param name="stream">The stream.</param>
         /// <param name="compressionMode">The compression mode.</param>
         /// <param name="ownsStream">if set to <c>true</c> [owns stream].</param>
         /// <exception cref="System.ArgumentOutOfRangeException">compressionMode - null</exception>
-        public LzmaStream(System.IO.Stream stream, CompressionMode compressionMode, bool ownsStream = true)
+        public LzmaStream(Stream stream, CompressionMode compressionMode, bool ownsStream = true)
         {
             _innerStream = stream;
             _ownsStream = ownsStream;
@@ -34,16 +32,47 @@ namespace LzmaStream
             {
                 case CompressionMode.Compress:
                     CanWrite = true;
-                    _coderThread = new Thread(() => new Encoder().Code(_pipeStream, _innerStream, -1, -1, null));
+                    _coderThread = StartThread(() => CreateEncoder().Code(_pipeStream, _innerStream, -1, -1, null),
+                        "LZMA compress");
                     break;
                 case CompressionMode.Decompress:
                     CanRead = true;
-                    _coderThread = new Thread(() => new Decoder().Code(_innerStream, _pipeStream, -1, -1, null));
+                    _coderThread = StartThread(() =>
+                        {
+                            var decoder = CreateDecoder(_innerStream, out var length);
+                            var inputLength = _innerStream.CanSeek ? _innerStream.Length : -1;
+                            decoder.Code(_innerStream, _pipeStream, inputLength, length, null);
+                            _pipeStream.Dispose();
+                        },
+                        "LZMA decompress");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(compressionMode), compressionMode, null);
             }
-            _coderThread.Start();
+        }
+
+        public override bool CanRead { get; }
+        public override bool CanWrite { get; }
+
+        private static Thread StartThread(ThreadStart action, string name)
+        {
+            var thread = new Thread(action) { Name = name };
+            thread.Start();
+            return thread;
+        }
+
+        private static ICoder CreateDecoder(Stream innerStream, out long outputLength)
+        {
+            var decoder = new Decoder();
+            decoder.SetDecoderProperties(innerStream.ReadBytes(5));
+            outputLength = innerStream.ReadLong();
+            return decoder;
+        }
+
+        private static ICoder CreateEncoder()
+        {
+            var encoder = new Encoder();
+            return encoder;
         }
 
         protected override void Dispose(bool disposing)

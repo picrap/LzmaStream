@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="r.lzma" />
+    <None Remove="r.raw" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.1.0" />
     <PackageReference Include="MSTest.TestFramework" Version="2.1.0" />
@@ -15,6 +20,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LzmaStream\LzmaStream.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="r.raw" />
+    <EmbeddedResource Include="r.lzma" />
   </ItemGroup>
 
 </Project>

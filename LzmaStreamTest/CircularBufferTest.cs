@@ -1,8 +1,8 @@
-using LzmaStream.Pipe;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 namespace LzmaStreamTest
 {
+    using Lzma.Pipe;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
     [TestClass]
     public class CircularBufferTest
     {
@@ -10,7 +10,7 @@ namespace LzmaStreamTest
         public void SimpleReadWrite()
         {
             var circularBuffer = new CircularBuffer();
-            var referenceData = new byte[] { 1 };
+            var referenceData = new byte[] {1};
             circularBuffer.Write(referenceData, 0, referenceData.Length);
             var readData = new byte[10];
             Assert.AreEqual(1, circularBuffer.Read(readData, 0, readData.Length));
