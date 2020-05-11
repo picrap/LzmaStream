@@ -16,15 +16,26 @@
         private readonly bool _ownsStream;
         private readonly Stream _pipeStream;
 
+        public LzmaStream(Stream stream, CompressionMode compressionMode, bool ownsStream = true, int bufferSize = 1 << 20)
+        : this(stream, compressionMode, LzmaCompressionParameters.Default, ownsStream, bufferSize)
+        { }
+
+        public LzmaStream(Stream stream, LzmaCompressionParameters compressionParameters, bool ownsStream = true, int bufferSize = 1 << 20)
+        : this(stream, CompressionMode.Compress, compressionParameters, ownsStream, bufferSize)
+        { }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LzmaStream" /> class.
         /// </summary>
         /// <param name="stream">The stream.</param>
         /// <param name="compressionMode">The compression mode.</param>
+        /// <param name="compressionParameters">The compression parameters.</param>
         /// <param name="ownsStream">if set to <c>true</c> [owns stream].</param>
         /// <param name="bufferSize">Size of the buffer.</param>
+        /// <exception cref="ArgumentOutOfRangeException">compressionMode - null</exception>
         /// <exception cref="System.ArgumentOutOfRangeException">compressionMode - null</exception>
-        public LzmaStream(Stream stream, CompressionMode compressionMode, bool ownsStream = true, int bufferSize = 1 << 20)
+        private LzmaStream(Stream stream, CompressionMode compressionMode, LzmaCompressionParameters compressionParameters = null,
+            bool ownsStream = true, int bufferSize = 1 << 20)
         {
             _innerStream = stream;
             _ownsStream = ownsStream;
@@ -33,7 +44,7 @@
             {
                 case CompressionMode.Compress:
                     CanWrite = true;
-                    _coderThread = StartThread(() => CreateEncoder().Code(_pipeStream, _innerStream, -1, -1, null),
+                    _coderThread = StartThread(() => CreateEncoder(_innerStream, compressionParameters).Code(_pipeStream, _innerStream, -1, -1, null),
                         "LZMA compress");
                     break;
                 case CompressionMode.Decompress:
@@ -70,9 +81,12 @@
             return decoder;
         }
 
-        private static ICoder CreateEncoder()
+        private static ICoder CreateEncoder(Stream innerStream, LzmaCompressionParameters compressionParameters)
         {
             var encoder = new Encoder();
+            compressionParameters.SetEncoderProperties(encoder);
+            encoder.WriteCoderProperties(innerStream);
+            innerStream.WriteLong(-1);
             return encoder;
         }
 

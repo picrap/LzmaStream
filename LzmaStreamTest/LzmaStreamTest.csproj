@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="flowers.bmp" />
     <None Remove="r.lzma" />
     <None Remove="r.raw" />
   </ItemGroup>
@@ -23,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="flowers.bmp" />
     <EmbeddedResource Include="r.raw" />
     <EmbeddedResource Include="r.lzma" />
   </ItemGroup>

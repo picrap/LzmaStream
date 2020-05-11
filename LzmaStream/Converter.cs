@@ -13,5 +13,13 @@
                 return BitConverter.ToInt64(bytes, 0);
             return BitConverter.ToInt64(bytes.Reverse().ToArray(), 0);
         }
+
+        public static byte[] ToBytes(this long value)
+        {
+            var bytes = BitConverter.GetBytes(value);
+            if (!BitConverter.IsLittleEndian)
+                return bytes;
+            return bytes.Reverse().ToArray();
+        }
     }
 }

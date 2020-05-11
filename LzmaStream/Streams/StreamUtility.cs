@@ -66,5 +66,9 @@
                 throw new InvalidOperationException("Stream too short");
             return value;
         }
+
+        public static void WriteBytes(this Stream stream, byte[] bytes) => stream.Write(bytes, 0, bytes.Length);
+
+        public static void WriteLong(this Stream stream, long value) => stream.WriteBytes(value.ToBytes());
     }
 }
