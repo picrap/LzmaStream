@@ -1,0 +1,3 @@
+[submodule "lzma-sdk"]
+	path = lzma-sdk
+	url = https://github.com/picrap/lzma-sdk.git

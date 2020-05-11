@@ -6,18 +6,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\lzma1900\CS\7zip\Common\CRC.cs" Link="lzma1900\CRC.cs" />
-    <Compile Include="..\lzma1900\CS\7zip\Compress\LZMA\LzmaBase.cs" Link="lzma1900\LzmaBase.cs" />
-    <Compile Include="..\lzma1900\CS\7zip\Compress\LZMA\LzmaDecoder.cs" Link="lzma1900\LzmaDecoder.cs" />
-    <Compile Include="..\lzma1900\CS\7zip\Compress\LZMA\LzmaEncoder.cs" Link="lzma1900\LzmaEncoder.cs" />
-    <Compile Include="..\lzma1900\CS\7zip\Compress\LZ\IMatchFinder.cs" Link="lzma1900\IMatchFinder.cs" />
-    <Compile Include="..\lzma1900\CS\7zip\Compress\LZ\LzBinTree.cs" Link="lzma1900\LzBinTree.cs" />
-    <Compile Include="..\lzma1900\CS\7zip\Compress\LZ\LzInWindow.cs" Link="lzma1900\LzInWindow.cs" />
-    <Compile Include="..\lzma1900\CS\7zip\Compress\LZ\LzOutWindow.cs" Link="lzma1900\LzOutWindow.cs" />
-    <Compile Include="..\lzma1900\CS\7zip\Compress\RangeCoder\RangeCoder.cs" Link="lzma1900\RangeCoder.cs" />
-    <Compile Include="..\lzma1900\CS\7zip\Compress\RangeCoder\RangeCoderBit.cs" Link="lzma1900\RangeCoderBit.cs" />
-    <Compile Include="..\lzma1900\CS\7zip\Compress\RangeCoder\RangeCoderBitTree.cs" Link="lzma1900\RangeCoderBitTree.cs" />
-    <Compile Include="..\lzma1900\CS\7zip\ICoder.cs" Link="lzma1900\ICoder.cs" />
+    <Compile Include="..\lzma-sdk\lzma1900\CS\7zip\Common\CRC.cs" Link="lzma1900\CRC.cs" />
+    <Compile Include="..\lzma-sdk\lzma1900\CS\7zip\Compress\LZMA\LzmaBase.cs" Link="lzma1900\LzmaBase.cs" />
+    <Compile Include="..\lzma-sdk\lzma1900\CS\7zip\Compress\LZMA\LzmaDecoder.cs" Link="lzma1900\LzmaDecoder.cs" />
+    <Compile Include="..\lzma-sdk\lzma1900\CS\7zip\Compress\LZMA\LzmaEncoder.cs" Link="lzma1900\LzmaEncoder.cs" />
+    <Compile Include="..\lzma-sdk\lzma1900\CS\7zip\Compress\LZ\IMatchFinder.cs" Link="lzma1900\IMatchFinder.cs" />
+    <Compile Include="..\lzma-sdk\lzma1900\CS\7zip\Compress\LZ\LzBinTree.cs" Link="lzma1900\LzBinTree.cs" />
+    <Compile Include="..\lzma-sdk\lzma1900\CS\7zip\Compress\LZ\LzInWindow.cs" Link="lzma1900\LzInWindow.cs" />
+    <Compile Include="..\lzma-sdk\lzma1900\CS\7zip\Compress\LZ\LzOutWindow.cs" Link="lzma1900\LzOutWindow.cs" />
+    <Compile Include="..\lzma-sdk\lzma1900\CS\7zip\Compress\RangeCoder\RangeCoder.cs" Link="lzma1900\RangeCoder.cs" />
+    <Compile Include="..\lzma-sdk\lzma1900\CS\7zip\Compress\RangeCoder\RangeCoderBit.cs" Link="lzma1900\RangeCoderBit.cs" />
+    <Compile Include="..\lzma-sdk\lzma1900\CS\7zip\Compress\RangeCoder\RangeCoderBitTree.cs" Link="lzma1900\RangeCoderBitTree.cs" />
+    <Compile Include="..\lzma-sdk\lzma1900\CS\7zip\ICoder.cs" Link="lzma1900\ICoder.cs" />
   </ItemGroup>
 
 </Project>
