@@ -162,7 +162,7 @@
             };
             object[] properties =
             {
-                Dictionary,
+                1 << Dictionary,
                 PosStateBits,
                 LitContextBits,
                 LitPosBits,
@@ -177,7 +177,6 @@
 
         public static readonly LzmaCompressionParameters Fast = new LzmaCompressionParameters
         {
-            //Algorithm = 0,
             Dictionary = 20,
             //LitContextBits = 8,
             //LitPosBits = 4,
@@ -190,7 +189,6 @@
 
         public static readonly LzmaCompressionParameters Optimal = new LzmaCompressionParameters
         {
-            Algorithm = 1,
             Dictionary = 29,
             LitContextBits = 8,
             LitPosBits = 0,
