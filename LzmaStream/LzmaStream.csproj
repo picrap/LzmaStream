@@ -3,6 +3,17 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net40</TargetFrameworks>
     <RootNamespace>Lzma</RootNamespace>
+    <Version>0.9-beta</Version>
+    <Authors>Pascal Craponne</Authors>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/picrap/LzmaStream</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/picrap/LzmaStream.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>lzma .net</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>Exposes an LzmaStream which works exactly like a .NET stream, such as GZipStream</Description>
+    <Copyright>Pascal Craponne 2020</Copyright>
+    <Company />
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +29,13 @@
     <Compile Include="..\lzma-sdk\lzma1900\CS\7zip\Compress\RangeCoder\RangeCoderBit.cs" Link="lzma1900\RangeCoderBit.cs" />
     <Compile Include="..\lzma-sdk\lzma1900\CS\7zip\Compress\RangeCoder\RangeCoderBitTree.cs" Link="lzma1900\RangeCoderBitTree.cs" />
     <Compile Include="..\lzma-sdk\lzma1900\CS\7zip\ICoder.cs" Link="lzma1900\ICoder.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
