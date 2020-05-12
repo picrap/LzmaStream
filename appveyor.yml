@@ -6,6 +6,9 @@ branches:
 version: '{branch}-{build}'
 image: Visual Studio 2019
 
+install:
+  - git submodule update --init --recursive
+
 before_build:
   nuget restore
 
