@@ -1,7 +1,11 @@
 # LzmaStream
-Trying to get LZMA mainstream
+Trying to get LZMA mainstream  :stuck_out_tongue_winking_eye:
 
-As of today, an experiment to get a simple `LzmaStream`, similar to `GZipStream`
+Available as a [![NuGet package](http://img.shields.io/nuget/v/LzmaStream.svg?style=flat-square)](https://www.nuget.org/packages/LzmaStream) package.
+
+## What is it?
+
+A `Stream` that works exactly as you would expect: read from it and unpack or write to it and pack (the same way you would do with `GZipStream`)
 
 ## How to use it
 
@@ -12,9 +16,23 @@ using (var lzmaStream = new LzmaStream(packedStream, CompressionMode.Decompress)
 {
     lzmaStream.CopyTo(unpackTarget);
     // or
-    lzmaStream.Read(unpackData, 0, unpackData.Length);
+    // lzmaStream.Read(unpackData, 0, unpackData.Length);
 }
 ```
+
+… And to compress it:
+```csharp
+// rawStream is a stream containing data to be packed
+using (var lzmaStream = new LzmaStream(rawStream, CompressionMode.Compress))
+// or
+// using (var lzmaStream = new LzmaStream(rawStream, LzmaCompressionParameters.Defaut /* or .Optimal or .Fast or custom… */))
+{
+    lzmaStream.CopyTo(packTarget);
+    // or
+    // lzmaStream.Write(rawData, 0, rawData.Length);
+}
+```
+
 
 ## Credits
 
