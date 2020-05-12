@@ -20,6 +20,7 @@ nuget:
 configuration: Release
 
 build:
+  project: LzmaStream.sln
   parallel: true
   publish_nuget: true
   publish_nuget_symbols: true
