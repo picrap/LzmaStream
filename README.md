@@ -18,4 +18,4 @@ using (var lzmaStream = new LzmaStream(packedStream, CompressionMode.Decompress)
 
 ## Credits
 
-This library uses unmodified source code from https://www.7-zip.org/sdk.html ([here in the repository](https://github.com/picrap/LzmaStream/tree/master/lzma1900))
+This library uses unmodified source code from https://www.7-zip.org/sdk.html ([from another repository](https://github.com/picrap/lzma-sdk))
