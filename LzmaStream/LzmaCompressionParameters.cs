@@ -1,15 +1,15 @@
 ﻿namespace Lzma
 {
     using System;
-    using System.IO.Compression;
     using System.Linq;
     using SevenZip;
     using SevenZip.Compression.LZMA;
 
     public class LzmaCompressionParameters
     {
-        private int _dictionary = 23;
+        private bool _readonly;
 
+        private int _dictionary = 23;
         /// <summary>
         /// Gets or sets the dictionary.
         /// Possible values 0-29 (dictionary size is 2^n)
@@ -20,8 +20,8 @@
         /// </value>
         public int Dictionary
         {
-            get => _dictionary;
-            set => _dictionary = Between(value, 0, 29);
+            get { return _dictionary; }
+            set { CheckWrite(); _dictionary = Between(value, 0, 29); }
         }
 
         private int _posStateBits = 2;
@@ -35,8 +35,8 @@
         /// </value>
         public int PosStateBits
         {
-            get => _posStateBits;
-            set => _posStateBits = Between(value, 0, 4);
+            get { return _posStateBits; }
+            set { CheckWrite(); _posStateBits = Between(value, 0, 4); }
         }
 
         private int _litContextBits = 3;
@@ -50,8 +50,8 @@
         /// </value>
         public int LitContextBits
         {
-            get => _litContextBits;
-            set => _litContextBits = Between(value, 0, 8);
+            get { return _litContextBits; }
+            set { CheckWrite(); _litContextBits = Between(value, 0, 8); }
         }
 
         private int _litPosBits = 0;
@@ -65,8 +65,8 @@
         /// </value>
         public int LitPosBits
         {
-            get => _litPosBits;
-            set => _litPosBits = Between(value, 0, 4);
+            get { return _litPosBits; }
+            set { CheckWrite(); _litPosBits = Between(value, 0, 4); }
         }
 
         private int _algorithm = 1;
@@ -83,8 +83,8 @@
         /// </value>
         public int Algorithm
         {
-            get => _algorithm;
-            set => _algorithm = Between(value, 0, 1);
+            get { return _algorithm; }
+            set { CheckWrite(); _algorithm = Between(value, 0, 1); }
         }
 
         private int _numFastBytes = 128;
@@ -99,11 +99,12 @@
         /// </value>
         public int NumFastBytes
         {
-            get => _numFastBytes;
-            set => _numFastBytes = Between(value, 5, 273);
+            get { return _numFastBytes; }
+            set { CheckWrite(); _numFastBytes = Between(value, 5, 273); }
         }
 
         private string _mf = "bt4";
+
         /// <summary>
         /// Gets or sets the match finder algorithm.
         /// Values: bt2 ro bt4
@@ -114,10 +115,11 @@
         /// </value>
         public string Mf
         {
-            get => _mf;
-            set => _mf = From(value, "bt2", "bt4");
+            get { return _mf; }
+            set { CheckWrite(); _mf = From(value, "bt2", "bt4"); }
         }
 
+        private bool _eos = true;
         /// <summary>
         /// Gets or sets the end of stream marker
         /// Defaults to false (assumes this is the end of the stream)
@@ -125,7 +127,11 @@
         /// <value>
         ///   <c>true</c> if eos; otherwise, <c>false</c>.
         /// </value>
-        public bool Eos { get; set; } = true;
+        public bool Eos
+        {
+            get { return _eos; }
+            set { CheckWrite(); _eos = value; }
+        }
 
         private static int Between(int value, int min, int max)
         {
@@ -141,9 +147,22 @@
             return value;
         }
 
+        private void CheckWrite()
+        {
+            if (_readonly)
+                throw new InvalidOperationException();
+        }
+
+        private LzmaCompressionParameters ReadOnly()
+        {
+            _readonly = true;
+            return this;
+        }
+
         public LzmaCompressionParameters Clone()
         {
             var clone = (LzmaCompressionParameters)MemberwiseClone();
+            clone._readonly = false;
             return clone;
         }
 
@@ -177,15 +196,15 @@
 
         public static readonly LzmaCompressionParameters Fast = new LzmaCompressionParameters
         {
-            Dictionary = 20,
-            //LitContextBits = 8,
-            //LitPosBits = 4,
+            Dictionary = 16,
+            LitContextBits = 0,
+            LitPosBits = 0,
             NumFastBytes = 5,
-            //PosStateBits = 4,
+            PosStateBits = 4,
             Mf = "bt2"
-        };
+        }.ReadOnly();
 
-        public static readonly LzmaCompressionParameters Default = new LzmaCompressionParameters();
+        public static readonly LzmaCompressionParameters Default = new LzmaCompressionParameters().ReadOnly();
 
         public static readonly LzmaCompressionParameters Optimal = new LzmaCompressionParameters
         {
@@ -195,6 +214,6 @@
             NumFastBytes = 273,
             PosStateBits = 0,
             Mf = "bt4"
-        };
+        }.ReadOnly();
     }
 }
