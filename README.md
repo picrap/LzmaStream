@@ -22,17 +22,17 @@ using (var lzmaStream = new LzmaStream(packedStream, CompressionMode.Decompress)
 
 … And to compress it:
 ```csharp
-// rawStream is a stream containing data to be packed
-using (var lzmaStream = new LzmaStream(rawStream, CompressionMode.Compress))
+// packedStream is a stream receiving packed data
+using (var lzmaStream = new LzmaStream(packedStream, CompressionMode.Compress))
 // or
 // using (var lzmaStream = new LzmaStream(rawStream, LzmaCompressionParameters.Defaut /* or .Optimal or .Fast or custom… */))
 {
-    lzmaStream.CopyTo(packTarget);
+    // copy from an unpacked stream to LZMA output
+    rawStream.CopyTo(lzmaStream);
     // or
     // lzmaStream.Write(rawData, 0, rawData.Length);
 }
 ```
-
 
 ## Credits
 
