@@ -1,6 +1,7 @@
 ﻿namespace Lzma
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using SevenZip;
     using SevenZip.Compression.LZMA;
@@ -168,30 +169,19 @@
 
         internal void SetEncoderProperties(Encoder encoder)
         {
-            CoderPropID[] propIDs =
+            var properties = new Dictionary<CoderPropID, object>
             {
-                CoderPropID.DictionarySize,
-                CoderPropID.PosStateBits,
-                CoderPropID.LitContextBits,
-                CoderPropID.LitPosBits,
-                CoderPropID.Algorithm,
-                CoderPropID.NumFastBytes,
-                CoderPropID.MatchFinder,
-                CoderPropID.EndMarker
-            };
-            object[] properties =
-            {
-                1 << Dictionary,
-                PosStateBits,
-                LitContextBits,
-                LitPosBits,
-                Algorithm,
-                NumFastBytes,
-                Mf,
-                Eos
+                {CoderPropID.DictionarySize, 1 << Dictionary},
+                {CoderPropID.PosStateBits,PosStateBits},
+                {CoderPropID.LitContextBits,LitContextBits},
+                {CoderPropID.LitPosBits,LitPosBits},
+                {CoderPropID.Algorithm,Algorithm},
+                {CoderPropID.NumFastBytes,NumFastBytes},
+                {CoderPropID.MatchFinder,Mf},
+                {CoderPropID.EndMarker,Eos}
             };
 
-            encoder.SetCoderProperties(propIDs, properties);
+            encoder.SetCoderProperties(properties.Keys.ToArray(), properties.Values.ToArray());
         }
 
         public static readonly LzmaCompressionParameters Fast = new LzmaCompressionParameters
