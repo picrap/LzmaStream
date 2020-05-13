@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net40</TargetFrameworks>
     <RootNamespace>Lzma</RootNamespace>
-    <Version>0.9-beta</Version>
+    <Version>0.9.1-beta</Version>
     <Authors>Pascal Craponne</Authors>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/picrap/LzmaStream</PackageProjectUrl>
@@ -14,6 +14,7 @@
     <Description>Exposes an LzmaStream which works exactly like a .NET stream, such as GZipStream</Description>
     <Copyright>Pascal Craponne 2020</Copyright>
     <Company />
+    <PackageIcon>LzmaStream.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,6 +33,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\Icon\LzmaStream.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <None Include="..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
